@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#ECE8DF">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Lớp tiếng Trung">
+<title>Lớp học · Guangyu Hanyu</title>
+<link rel="icon" href="logo.webp">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="fonts.css">
+<style>
+:root{--nen:#ECE8DF;--giay:rgba(255,255,255,.82);--muc:#2D4257;--nhat:#7B8EA3;--chinh:#5F8DB8;--chinh-dam:#3E6A93;--vien:#C9D9E8;
+  --p1:#D7E8F6;--p1c:#3E6A93;--p2:#D6EEE4;--p2c:#3D7A62;--p3:#F8E2D6;--p3c:#A85F3C;--p4:#E5E0F5;--p4c:#6A5AA8;--hang:#F4F8FB;--do:#C0392B}
+*{box-sizing:border-box}html,body{margin:0}
+body{font-family:'Noto Serif','Songti SC','STSong',serif;color:var(--muc);background:var(--nen);min-height:100vh;line-height:1.5;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;z-index:-1;background:url(nen.jpg) center top/cover no-repeat}
+@media (min-width:761px){body::before{left:auto;width:66.7vh;-webkit-mask-image:linear-gradient(to right,transparent 0,#000 40%);mask-image:linear-gradient(to right,transparent 0,#000 40%)}}
+button,input,textarea,select{font:inherit;color:inherit}
+a{color:var(--chinh-dam)}
+.khung{max-width:1080px;margin:0 auto;padding:calc(16px + env(safe-area-inset-top)) 14px 40px}
+.mo{color:var(--nhat)}.nho{font-size:13px}.an{display:none!important}
+.mat{background:var(--giay);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--vien)}
+/* đầu trang */
+.dau{border-radius:22px;padding:16px 22px}
+.dau-tren{display:flex;align-items:center;gap:14px}
+.dau img{width:54px;height:54px;border-radius:9px;flex:none}
+.dau .ten small{display:block;font-size:11px;letter-spacing:.25em;color:var(--nhat)}
+.dau .ten b{display:block;font-size:21px;letter-spacing:.03em;line-height:1.3}
+.ve-chu{margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:4px;border:1px solid var(--vien);background:#fff;border-radius:99px;padding:8px 14px;font-size:13.5px;font-weight:700;color:var(--chinh-dam);text-decoration:none;white-space:nowrap}
+.ve-chu:hover{background:var(--p1)}
+.mo-ct{display:flex;align-items:center;gap:8px;width:100%;margin-top:12px;border:1px solid var(--vien);background:var(--p1);color:var(--p1c);border-radius:14px;padding:10px 14px;font-size:14px;text-align:left;cursor:pointer}
+.mo-ct .mui{margin-left:auto;font-weight:700;white-space:nowrap}
+.mo-ct .mui i{display:inline-block;font-style:normal;transition:transform .25s}
+.dau.mo .mo-ct .mui i{transform:rotate(180deg)}
+.ct-lop{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease}
+.dau.mo .ct-lop{grid-template-rows:1fr}
+.ct-lop>div{overflow:hidden}
+.ct-trong{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding-top:14px}
+h3{margin:0 0 8px;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--nhat)}
+.hv{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:12px;background:#fff;border:1px solid var(--vien);margin-bottom:6px}
+.hv .av{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:14px}
+.hv b{font-size:14.5px}.hv .tt{margin-left:auto}
+.ttl{display:grid;grid-template-columns:auto 1fr;gap:7px 14px;margin:0;font-size:14px;background:#fff;border:1px solid var(--vien);border-radius:12px;padding:12px 14px}
+.ttl dt{color:var(--nhat)}.ttl dd{margin:0;font-weight:600}
+/* tab */
+.tab{position:sticky;top:8px;z-index:5;display:flex;gap:6px;margin:14px 0;border-radius:99px;padding:5px;overflow-x:auto;scrollbar-width:none}
+.tab button{flex:1;white-space:nowrap;border:0;background:transparent;border-radius:99px;padding:9px 14px;font-size:14.5px;color:var(--nhat);cursor:pointer;position:relative}
+.tab button.on{background:var(--chinh);color:#fff;font-weight:700;box-shadow:0 6px 14px -6px var(--chinh)}
+.tab i{font-style:normal}
+.dem{display:inline-grid;place-items:center;min-width:18px;height:18px;border-radius:99px;background:#E07A5F;color:#fff;font-size:11px;font-weight:700;font-style:normal;margin-left:4px;padding:0 5px}
+.trang{display:none}.trang.on{display:block;animation:hien .35s ease}
+@keyframes hien{from{opacity:0;transform:translateY(6px)}}
+.the{border-radius:20px;padding:20px 22px;margin-bottom:14px}
+h2{margin:0 0 14px;font-size:17px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+h2 .phu{margin-left:auto;font-size:13px;font-weight:400;color:var(--nhat)}
+.bam{cursor:pointer}
+/* ô số */
+.o4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+.o{border-radius:18px;padding:16px 16px 14px;position:relative;overflow:hidden;transition:transform .2s}
+.o:hover{transform:translateY(-3px)}
+.o span{font-size:12.5px;letter-spacing:.05em;opacity:.85}
+.o b{display:block;font-size:28px;line-height:1.15;margin:4px 0 2px}
+.o small{font-size:12.5px;opacity:.85}
+.o.p1{background:var(--p1);color:var(--p1c)}.o.p2{background:var(--p2);color:var(--p2c)}.o.p3{background:var(--p3);color:var(--p3c)}.o.p4{background:var(--p4);color:var(--p4c)}
+.o.no{background:#FBE3DF;color:#A8432F}
+.o .vach{height:7px;border-radius:9px;background:rgba(255,255,255,.7);margin-top:8px;overflow:hidden}.o .vach i{display:block;height:100%;background:currentColor;border-radius:9px}
+.o .bieu{position:absolute;right:12px;top:10px;font-size:26px;opacity:.55;font-style:normal}
+.hai{display:grid;grid-template-columns:1.4fr 1fr;gap:14px}
+.nhac{border:1px dashed #E2B48F;background:#FDF3EA;border-radius:14px;padding:12px 14px;font-size:14px;margin-bottom:14px}
+.nut{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--vien);background:#fff;border-radius:99px;padding:11px 20px;font-weight:700;color:var(--chinh-dam);cursor:pointer;text-decoration:none}
+.nut.chinh{background:var(--chinh);border-color:var(--chinh);color:#fff}
+.nut.zoom{background:#5B9BE6;border-color:#5B9BE6;color:#fff;width:100%;padding:14px;font-size:16px}
+.nut.nho2{padding:6px 14px;font-size:13px}
+.nut:disabled{opacity:.5}
+.dong-phu{font-size:13.5px;color:var(--nhat);margin:10px 0 0}
+.dong-phu b{color:var(--muc)}
+.qr{display:flex;gap:14px;align-items:center;margin-top:14px;font-size:13.5px}
+.qr img{width:92px;height:92px;border-radius:10px;border:3px solid #fff;background:#fff;flex:none}
+details.luu{margin-top:2px}
+details.luu summary{cursor:pointer;font-weight:700;list-style:none}
+details.luu summary::-webkit-details-marker{display:none}
+details.luu summary::after{content:' ▾';color:var(--nhat)}
+.luu-y{margin:10px 0 0;padding-left:20px;font-size:14px}.luu-y li{margin-bottom:6px}
+/* bảng */
+.loc{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.loc button{border:1px solid var(--vien);background:#fff;border-radius:99px;padding:6px 14px;font-size:13.5px;cursor:pointer}
+.loc button.on{background:var(--muc);border-color:var(--muc);color:#fff}
+.bang{width:100%;border-collapse:separate;border-spacing:0;font-size:14.5px;border:1px solid var(--vien);border-radius:14px;overflow:hidden;background:#fff}
+.bang th{background:var(--p1);color:var(--p1c);font-size:12px;letter-spacing:.06em;text-transform:uppercase;text-align:left;padding:10px 12px;font-weight:700}
+.bang td{padding:11px 12px;border-top:1px solid var(--vien);vertical-align:top}
+.bang tbody tr:nth-child(even) td{background:var(--hang)}
+.bang tr.toi td{background:var(--p3)!important}
+.bang tr.nghi td{color:var(--nhat)}
+.so{font-weight:700;color:var(--chinh-dam)}
+.bang td.ngay{white-space:nowrap}
+.tt{display:inline-block;font-size:12px;padding:2px 10px;border-radius:99px;white-space:nowrap;font-weight:700}
+.tt.da{background:var(--p2);color:var(--p2c)}.tt.toi{background:var(--p3);color:var(--p3c)}.tt.sap{background:var(--p1);color:var(--p1c)}.tt.nghi{background:#EEE;color:#888}
+.lk{color:var(--chinh-dam);font-weight:700;text-decoration:none;white-space:nowrap;display:inline-block;margin:0 8px 2px 0}
+.ct{display:none}
+.trong{color:var(--nhat);font-style:italic}
+/* bài tập */
+.bt{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:14px 0;border-top:1px dashed var(--vien);cursor:pointer}
+.bt:first-of-type{border-top:0;padding-top:4px}
+.bt input{width:22px;height:22px;accent-color:var(--p2c);margin-top:2px}
+.bt p{margin:0;white-space:pre-line}.bt small{color:var(--nhat)}
+.bt.xong p{text-decoration:line-through;color:var(--nhat)}
+.bt .lks{margin-top:4px}
+/* tài liệu */
+.tim{width:100%;border:1px solid var(--vien);border-radius:99px;padding:10px 16px;background:#fff;margin-bottom:12px;font-size:16px}
+.tl{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.tl a{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--vien);border-radius:16px;padding:14px;text-decoration:none;color:var(--muc);transition:transform .2s,box-shadow .2s;position:relative}
+.tl a:hover{transform:translateY(-3px);box-shadow:0 12px 22px -14px rgba(0,0,0,.35)}
+.tl i{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-style:normal;font-size:20px}
+.tl b{display:block;font-size:14.5px;line-height:1.35;padding-right:34px}.tl small{display:block;color:var(--nhat);font-size:12px}
+.tl em{position:absolute;top:10px;right:10px;font-style:normal;font-size:11px;background:var(--p3);color:var(--p3c);border-radius:99px;padding:1px 8px;font-weight:700}
+/* hồ sơ */
+.thieu{color:var(--p3c);font-weight:700}.du{color:var(--p2c);font-weight:700}
+.form{display:flex;flex-direction:column;gap:10px;margin-top:14px;background:#fff;border:1px solid var(--vien);border-radius:16px;padding:16px}
+.form label{display:flex;flex-direction:column;gap:4px;font-size:13.5px;color:var(--nhat)}
+.form input,.form textarea{border:1px solid var(--vien);border-radius:10px;padding:10px 12px;background:#fff;font-size:16px;color:var(--muc)}
+/* vào lớp */
+.vao{max-width:440px;margin:30px auto;text-align:center;display:flex;flex-direction:column;gap:12px}
+.vao img{width:70px;height:70px;border-radius:12px;margin:0 auto}
+.vao input{text-align:center;font-size:24px;letter-spacing:.2em;text-transform:uppercase;padding:12px;border:2px solid var(--vien);border-radius:14px;background:#fff;width:100%}
+.vao input:focus{outline:none;border-color:var(--chinh)}
+.loi{color:#A8432F;font-size:14px;min-height:20px}
+/* cài app */
+.cai{display:flex;gap:12px;align-items:center;border-radius:18px;padding:12px 16px;margin-bottom:14px;font-size:14px}
+.cai img{width:42px;height:42px;border-radius:10px;flex:none}
+.cai .x{margin-left:auto;border:0;background:transparent;font-size:20px;color:var(--nhat);cursor:pointer;padding:4px 8px}
+.chan{text-align:center;color:var(--nhat);font-size:12px;margin-top:18px;letter-spacing:.08em}
+.chan button{border:0;background:transparent;color:var(--chinh-dam);text-decoration:underline;cursor:pointer;font-size:12px}
+.toast{white-space:nowrap;position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--muc);color:#fff;padding:10px 18px;border-radius:99px;font-size:14px;box-shadow:0 10px 24px rgba(0,0,0,.3);z-index:20;transition:opacity .3s}
+@media (max-width:760px){
+  .khung{padding-bottom:110px}
+  .ve-chu{padding:8px 11px}.ve-chu span{display:none}
+  .dau{padding:14px}.dau .ten b{font-size:18px}.ct-trong{grid-template-columns:1fr}.mo-ct{font-size:13px}
+  .o4{grid-template-columns:1fr 1fr;gap:10px}.o b{font-size:23px}
+  .hai{grid-template-columns:1fr}
+  .tab{position:fixed;top:auto;bottom:calc(10px + env(safe-area-inset-bottom));left:10px;right:10px;margin:0;box-shadow:0 10px 30px -10px rgba(0,0,0,.35)}
+  .tab button{padding:8px 4px;font-size:12px;display:flex;flex-direction:column;align-items:center;gap:1px}
+  .tab button i{font-size:18px}
+  .tab .dem{position:absolute;top:2px;left:50%;margin:0 0 0 8px}
+  .an-dt{display:none}
+  .bang{font-size:14px}.bang th,.bang td{padding:9px 8px}.bang th{letter-spacing:0;font-size:11px}
+  .ct{display:table-row}.ct td{border-top:0!important;font-size:13px;color:var(--nhat);padding-top:0}
+  .the{padding:16px}
+}
+@media (min-width:761px){.tab i{display:none}}
+</style>
+</head>
+<body>
+<div class="khung" id="khung"></div>
+<script>
+/* Trang học viên Guangyu Hanyu — đọc bản tóm tắt lớp qua hàm xem_lop (Supabase). Khoá công khai (publishable) an toàn để ở đây. */
+const TRANG_CHU = 'https://guangyuhanyu.github.io/'; /* trang chủ của Thầy */
+const SB_URL = 'https://tifzrefqfygavobfjysi.supabase.co', SB_KEY = 'sb_publishable_PS5aOpMFzG8tC25KC5yFMg_XZFV1uli';
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const esc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const THU = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'], THU_DAI = ['Chủ nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'];
+const s2d = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
+const ngayISO = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+const homNay = () => ngayISO(new Date());
+const ngayVN = s => s ? s.split('-').reverse().join('/') : '';
+const ngayNgan = s => s ? `${s.slice(8)}/${s.slice(5, 7)}` : '';
+const thuNgay = s => s ? `${THU[s2d(s).getDay()]} · ${ngayNgan(s)}` : '';
+const sachMa = v => String(v || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+const tlChu = p => !p ? '' : p % 60 ? (p > 60 ? `${Math.floor(p / 60)}h${p % 60}` : `${p} phút`) : `${p / 60} tiếng`;
+const gioKet = (g, p) => { if (!g || !p) return ''; const [h, m] = g.split(':').map(Number), t = h * 60 + m + p; return `${String(Math.floor(t / 60) % 24).padStart(2, '0')}:${String(t % 60).padStart(2, '0')}`; };
+const toast = t => { const n = document.createElement('div'); n.className = 'toast'; n.textContent = t; document.body.appendChild(n); setTimeout(() => { n.style.opacity = 0; setTimeout(() => n.remove(), 400); }, 2600); };
+const lsDoc = (k, md) => { try { return JSON.parse(localStorage.getItem(k)) ?? md; } catch (e) { return md; } };
+const lsGhi = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { } };
+const LOAI_TL = { gt: ['📘', 'Giáo trình', 'p1'], audio: ['🎧', 'Audio', 'p2'], tv: ['🗂', 'Từ vựng', 'p3'], de: ['📝', 'Đề luyện', 'p4'], video: ['🎬', 'Video', 'p1'], khac: ['📎', 'Khác', 'p2'] };
+const MAU_AV = ['p2', 'p1', 'p3', 'p4'];
+const TEN_THIEU = { sdt: 'SĐT', email: 'Gmail', ngay_sinh: 'ngày sinh' };
+let D = null, MA = '', TAB = 'tq', LOC = 'all', LOC_TL = 'all', TIM = '', HS_CHON = null;
+
+async function goiHam(ten, than) {
+  const r = await fetch(`${SB_URL}/rest/v1/rpc/${ten}`, { method: 'POST', headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' }, body: JSON.stringify(than) });
+  if (!r.ok) { const e = new Error(await r.text()); e.status = r.status; throw e; }
+  return r.json();
+}
+
+/* ---------- màn hình nhập mã ---------- */
+function veVao(loi) {
+  $('#khung').innerHTML = `<section class="the mat vao"><img src="logo.webp" alt="Guangyu Hanyu">
+    <div><small class="mo" style="letter-spacing:.25em;font-size:11px">光余汉语 · GUANGYU HANYU</small><h2 style="justify-content:center;margin:6px 0 0">Tra cứu lớp học</h2></div>
+    <p class="mo nho" style="margin:0">Nhập mã lớp Thầy gửi qua Zalo (8 ký tự).</p>
+    <input id="o-ma" maxlength="9" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="XXXX-XXXX" value="${esc(MA)}">
+    <div class="loi">${loi || ''}</div>
+    <button class="nut chinh" id="nut-vao">Xem lớp của tôi</button><a class="nut" href="${TRANG_CHU}">🏠 Về trang chủ</a></section>`;
+  const o = $('#o-ma'); o.focus();
+  o.addEventListener('input', () => { const v = sachMa(o.value).slice(0, 8); o.value = v.length > 4 ? v.slice(0, 4) + '-' + v.slice(4) : v; });
+  o.addEventListener('keydown', e => { if (e.key === 'Enter') $('#nut-vao').click(); });
+  $('#nut-vao').onclick = () => tai(sachMa(o.value));
+}
+async function tai(ma) {
+  if (ma.length !== 8) return veVao('Mã gồm 8 ký tự, Thầy gửi trong tin nhắn Zalo.');
+  if (!D) $('#khung').innerHTML = '<section class="the mat vao"><p class="mo">Đang tải lớp học…</p></section>';
+  try {
+    const d = await goiHam('xem_lop', { p_ma: ma });
+    if (!d) { localStorage.removeItem('gy_ma_lop'); MA = ''; D = null; return veVao('Không tìm thấy lớp với mã này. Anh/chị/bạn kiểm tra lại hoặc nhắn Thầy nhé.'); }
+    D = d; MA = ma; localStorage.setItem('gy_ma_lop', ma);
+    history.replaceState(null, '', `?ma=${ma}`);
+    document.title = `${d.lop} · Guangyu Hanyu`;
+    ve();
+  } catch (e) { if (!D) veVao('Chưa kết nối được. Anh/chị/bạn thử lại sau ít phút.'); }
+}
+
+/* ---------- dữ liệu dẫn xuất ---------- */
+function chuanBi() {
+  const d = D, hn = homNay(), bs = (d.buoi || []).slice().sort((a, b) => (a.ngay + (a.gio || '')).localeCompare(b.ngay + (b.gio || '')));
+  let n = 0; bs.forEach(b => { b.so = b.tt === 'nghi' ? null : ++n; });
+  const toi = bs.filter(b => b.tt === 'du_kien' && b.ngay >= hn);
+  const tl = (d.tai_lieu || []).slice().sort((a, b) => (b.ngay || '').localeCompare(a.ngay || ''));
+  const moiTu = ngayISO(new Date(Date.now() - 14 * 864e5));
+  tl.forEach(t => { t.moi = (t.ngay || '') >= moiTu; });
+  const tlBuoi = {}; tl.forEach(t => { if (t.buoi) (tlBuoi[t.buoi] = tlBuoi[t.buoi] || []).push(t); });
+  bs.forEach(b => { b.tls = tlBuoi[b.id] || (b.tl || []).map(id => tl.find(t => t.id === id)).filter(Boolean); });
+  const bt = bs.filter(b => b.bt && b.tt !== 'nghi').reverse();
+  return { bs, toi, tl, bt, hn };
+}
+const btXong = () => lsDoc('gy_bt_' + MA, []);
+const conBT = X => X.bt.filter(b => !btXong().includes(b.id)).length;
+
+/* ---------- vẽ toàn trang ---------- */
+function ve() {
+  const d = D, X = chuanBi(), k = d.khoa, hv = d.hoc_vien || [];
+  const lichNgan = k && k.lich ? k.lich : X.toi[0] ? `${THU_DAI[s2d(X.toi[0].ngay).getDay()]}${X.toi[0].gio ? ' · ' + X.toi[0].gio : ''}` : '';
+  const thongTin = [['Mã lớp', d.lop], k && ['Khoá hiện tại', `${k.ma} · ${k.tong} buổi × ${tlChu(k.tl)}`], k && k.giao_trinh && ['Giáo trình', k.giao_trinh], d.trinh_do && ['Trình độ', d.trinh_do],
+    k && (k.bd || k.kt) && ['Thời gian khoá', `${ngayVN(k.bd) || '…'} → ${ngayVN(k.kt) || '…'}`], k && k.lich && ['Lịch học', k.lich], k && k.muc_tieu && ['Mục tiêu', k.muc_tieu],
+    ['Giáo viên', 'Thầy Guangyu · Zalo 0358 840 411']].filter(Boolean);
+  const dauTrang = `<header class="dau mat" id="dau">
+    <div class="dau-tren"><img src="logo.webp" alt="Guangyu Hanyu"><div class="ten"><small>光余汉语 · GUANGYU HANYU</small><b>${esc(d.lop)}${d.trinh_do ? ` · ${esc(d.trinh_do)}` : ''}</b></div><a class="ve-chu" href="${TRANG_CHU}" title="Về trang chủ">🏠<span> Trang chủ</span></a></div>
+    <button class="mo-ct" data-mo-ct>👥 ${hv.length} học viên${lichNgan ? ` · ${esc(lichNgan)}` : ''}<span class="mui">Chi tiết <i>▾</i></span></button>
+    <div class="ct-lop"><div><div class="ct-trong">
+      <div><h3>Học viên trong lớp</h3>${hv.map((h, i) => `<div class="hv"><span class="av" style="background:var(--${MAU_AV[i % 4]});color:var(--${MAU_AV[i % 4]}c)">${esc((h.ten || '?').trim().split(/\s+/).pop()[0] || '?')}</span><b>${esc(h.ten)}</b>${h.thieu && h.thieu.length ? `<span class="tt toi bam" data-hs-ai="${h.id}">Thiếu ${h.thieu.map(x => TEN_THIEU[x] || x).join(', ')}</span>` : '<span class="tt da">✓ Đủ hồ sơ</span>'}</div>`).join('') || '<p class="mo nho">Chưa có học viên.</p>'}</div>
+      <div><h3>Thông tin lớp</h3><dl class="ttl">${thongTin.map(([a, b]) => `<dt>${a}</dt><dd>${esc(b)}</dd>`).join('')}</dl></div>
+    </div></div></div></header>`;
+  const nBT = conBT(X);
+  const tab = `<nav class="tab mat">${[['tq', '🏯', 'Tổng quan'], ['lich', '📅', 'Lịch học'], ['bt', '📝', 'Bài tập'], ['tl', '📚', 'Tài liệu'], ['hs', '👤', 'Hồ sơ']].map(([id, ic, ten]) =>
+    `<button data-t="${id}" class="${TAB === id ? 'on' : ''}"><i>${ic}</i>${ten}${id === 'bt' && nBT ? `<em class="dem">${nBT}</em>` : ''}</button>`).join('')}</nav>`;
+  $('#khung').innerHTML = dauTrang + tab +
+    `<section class="trang ${TAB === 'tq' ? 'on' : ''}" id="tq">${veTQ(X)}</section>
+     <section class="trang ${TAB === 'lich' ? 'on' : ''}" id="lich">${veLich(X)}</section>
+     <section class="trang ${TAB === 'bt' ? 'on' : ''}" id="bt">${veBT(X)}</section>
+     <section class="trang ${TAB === 'tl' ? 'on' : ''}" id="tl">${veTL(X)}</section>
+     <section class="trang ${TAB === 'hs' ? 'on' : ''}" id="hs">${veHS()}</section>
+     <p class="chan">GUANGYU HANYU${d.cap_nhat ? ` · Cập nhật lúc ${new Date(d.cap_nhat).toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' })}` : ''}<br><button data-doi-ma>Đổi mã lớp khác</button></p>`;
+  if ($('#o-tim')) $('#o-tim').oninput = e => { TIM = e.target.value; $('#tl-luoi').innerHTML = luoiTL(X); };
+  ganHS();
+}
+
+function veTQ(X) {
+  const d = D, k = d.khoa, bt0 = X.toi[0];
+  if (!k) return `<div class="the mat"><p class="mo">Lớp chưa có khoá học.</p></div>`;
+  const p = k.tong ? Math.min(100, Math.round(k.da_hoc / k.tong * 100)) : 0, nMoi = X.tl.filter(t => t.moi).length;
+  let h = caiApp();
+  h += `<div class="o4">
+    <div class="o p1"><i class="bieu">⏳</i><span>Còn lại</span><b>${k.con_lai} buổi</b><small>Đã học ${k.da_hoc}/${k.tong}${k.vuot ? ` · vượt ${k.vuot}` : ''}</small><div class="vach"><i style="width:${p}%"></i></div></div>
+    <div class="o p3"><i class="bieu">🔔</i><span>Buổi tới</span><b>${bt0 ? thuNgay(bt0.ngay) : '—'}</b><small>${bt0 ? `${bt0.gio || ''}${bt0.gio ? ' · ' : ''}${tlChu(bt0.phut)}` : 'Thầy chưa xếp lịch'}</small></div>
+    <div class="o ${k.hp.xong ? 'p2' : 'no'}"><i class="bieu">💰</i><span>Học phí</span><b>${k.hp.xong ? 'Đã đóng' : 'Chưa đủ'}</b><small>${esc(k.hp.chu.replace(/^Đã nhận ✓\s*/, '✓ '))}</small></div>
+    <div class="o p4 bam" data-di="tl"><i class="bieu">📚</i><span>Tài liệu</span><b>${X.tl.length} tài liệu</b><small>${nMoi ? `${nMoi} mới · ` : ''}xem kho →</small></div></div>`;
+  if (k.sau) h += `<div class="nhac">🌿 Khoá học sắp hoàn thành. Khoá tiếp theo: <b>${k.sau.so} buổi × ${tlChu(k.sau.tl)} · ${esc(k.sau.hp)}</b>${d.loai === 'nhom' || (d.hoc_vien || []).length > 1 ? ' (cả nhóm)' : ''}. Anh/chị/bạn chuyển khoản trước buổi đầu của khoá mới giúp Thầy nhé.</div>`;
+  const ba = X.toi.slice(0, 3);
+  h += `<div class="hai"><div class="the mat"><h2>📅 ${ba.length > 1 ? `${ba.length} buổi sắp tới` : 'Buổi sắp tới'} <span class="phu bam" data-di="lich">Xem cả lịch →</span></h2>
+    ${ba.length ? `<table class="bang"><thead><tr><th>Buổi</th><th>Ngày</th><th>Giờ</th><th>Trạng thái</th></tr></thead><tbody>${ba.map((b, i) => `<tr class="${i ? '' : 'toi'}"><td class="so">${b.so}</td><td>${thuNgay(b.ngay)}</td><td>${b.gio || '—'}</td><td><span class="tt ${i ? 'sap' : 'toi'}">${i ? 'Sắp tới' : 'Buổi tới'}</span></td></tr>`).join('')}</tbody></table>` : '<p class="mo">Thầy chưa xếp lịch buổi tiếp theo.</p>'}</div>
+    <div class="the mat"><h2>🎥 Vào lớp</h2>${d.zoom ? `<a class="nut zoom" href="${esc(d.zoom)}" target="_blank" rel="noopener">Vào phòng Zoom</a>` : '<p class="mo nho" style="margin:0">Thầy gửi link phòng học qua Zalo vào đầu buổi.</p>'}
+      ${(d.off || []).map(o => `<p class="dong-phu">🏮 Thầy nghỉ <b>${esc(o.ten)}</b> · ${o.tu === o.den ? `${THU_DAI[s2d(o.tu).getDay()]}, ${ngayVN(o.tu)}` : `${ngayNgan(o.tu)} – ${ngayVN(o.den)}`}</p>`).join('')}
+      <p class="dong-phu">💬 Cần xin nghỉ / dời lịch: nhắn Thầy trước 4 tiếng qua <a href="https://zalo.me/${esc(d.zalo || '0358840411')}" target="_blank" rel="noopener">Zalo</a></p>
+      ${!k.hp.xong || k.sau ? `<div class="qr"><img src="qr-chuyen-khoan.png" alt="QR chuyển khoản"><div><b>Chuyển khoản học phí</b><br>${esc(d.tk)}<br><span class="mo">Nội dung: Tên học viên + Lớp</span></div></div>` : ''}</div></div>`;
+  if ((d.luu_y || []).length) h += `<div class="the mat"><details class="luu"><summary>📜 Lưu ý của lớp</summary><ol class="luu-y">${d.luu_y.map(x => `<li>${esc(x)}</li>`).join('')}</ol></details></div>`;
+  return h;
+}
+
+function lienKet(b) {
+  return `${b.link ? `<a class="lk" href="${esc(b.link)}" target="_blank" rel="noopener">📖 Bài giảng</a>` : ''}${(b.tls || []).map(t => `<a class="lk" href="${esc(t.url)}" target="_blank" rel="noopener">📎 ${esc(t.ten)}</a>`).join('')}`;
+}
+function veLich(X) {
+  const k = D.khoa, hn = X.hn, toi0 = X.toi[0];
+  const nhom = { all: X.bs, sap: X.bs.filter(b => b.tt === 'du_kien' && b.ngay >= hn), da: X.bs.filter(b => b.tt === 'da_day'), nghi: X.bs.filter(b => b.tt === 'nghi') };
+  const ds = nhom[LOC] || X.bs;
+  const ttCua = b => b.tt === 'nghi' ? `<span class="tt nghi">Nghỉ</span>` : b.tt === 'da_day' ? '<span class="tt da">✓ Đã học</span>' : b === toi0 ? '<span class="tt toi">Buổi tới</span>' : '<span class="tt sap">Sắp tới</span>';
+  const dong = b => {
+    const nd = b.tt === 'nghi' ? `Nghỉ${b.lydo ? ': ' + esc(b.lydo) : ''}` : b.nd ? esc(b.nd) : `<span class="trong">${b.tt === 'da_day' ? '—' : 'Sắp học'}</span>`;
+    const lk = lienKet(b), coCt = b.bt || lk;
+    return `<tr class="${b === toi0 ? 'toi' : ''} ${b.tt === 'nghi' ? 'nghi' : ''}"><td class="so">${b.so || '–'}</td><td class="ngay">${thuNgay(b.ngay)}</td><td class="an-dt">${b.gio ? `${b.gio}–${gioKet(b.gio, b.phut)}` : '—'}</td><td>${nd}</td><td class="an-dt">${b.bt ? esc(b.bt) : '—'}</td><td class="an-dt">${lk || '—'}</td><td>${ttCua(b)}</td></tr>
+      ${coCt ? `<tr class="ct ${b === toi0 ? 'toi' : ''}"><td></td><td colspan="3">${b.bt ? `📝 ${esc(b.bt)}<br>` : ''}${lk}</td></tr>` : ''}`;
+  };
+  return `<div class="the mat"><h2>📅 Lịch học${k ? ` khoá ${esc(k.ma)} <span class="phu">${k.tong} buổi × ${tlChu(k.tl)}</span>` : ''}</h2>
+    <div class="loc">${[['all', 'Tất cả'], ['sap', 'Sắp tới'], ['da', 'Đã học'], ['nghi', 'Nghỉ']].filter(([id]) => id !== 'nghi' || nhom.nghi.length).map(([id, t]) => `<button data-loc="${id}" class="${LOC === id ? 'on' : ''}">${t} · ${nhom[id].length}</button>`).join('')}</div>
+    ${ds.length ? `<table class="bang"><thead><tr><th>Buổi</th><th>Ngày</th><th class="an-dt">Giờ</th><th>Nội dung</th><th class="an-dt">Bài tập</th><th class="an-dt">Bài giảng · tài liệu</th><th>TT</th></tr></thead><tbody>${ds.map(dong).join('')}</tbody></table>` : '<p class="mo">Chưa có buổi nào.</p>'}</div>`;
+}
+
+function veBT(X) {
+  const xong = btXong();
+  return `<div class="the mat"><h2>📝 Bài tập về nhà <span class="phu">tick khi làm xong</span></h2>
+    ${X.bt.length ? X.bt.map(b => `<label class="bt ${xong.includes(b.id) ? 'xong' : ''}"><input type="checkbox" data-bt="${b.id}" ${xong.includes(b.id) ? 'checked' : ''}><div><p>${esc(b.bt)}</p><small>Buổi ${b.so} · ${thuNgay(b.ngay)}${b.nd ? ' · ' + esc(b.nd) : ''}</small>${lienKet(b) ? `<div class="lks">${lienKet(b)}</div>` : ''}</div></label>`).join('')
+    : '<p class="mo">Hiện chưa có bài tập về nhà.</p>'}
+    ${X.bt.length ? '<p class="mo nho" style="margin:12px 0 0">Dấu tick được lưu trên máy này để anh/chị/bạn tự theo dõi.</p>' : ''}</div>`;
+}
+
+function luoiTL(X) {
+  const q = TIM.trim().toLowerCase();
+  const ds = X.tl.filter(t => (LOC_TL === 'all' || t.loai === LOC_TL) && (!q || (t.ten + ' ' + (t.ghi || '')).toLowerCase().includes(q)));
+  if (!ds.length) return `<p class="mo">${X.tl.length ? 'Không thấy tài liệu phù hợp.' : 'Thầy chưa thêm tài liệu nào.'}</p>`;
+  return `<div class="tl">${ds.map(t => { const L = LOAI_TL[t.loai] || LOAI_TL.khac, b = t.buoi ? X.bs.find(x => x.id === t.buoi) : null;
+    return `<a href="${esc(t.url)}" target="_blank" rel="noopener"><i style="background:var(--${L[2]})">${L[0]}</i><div><b>${esc(t.ten)}</b><small>${L[1]}${t.ghi ? ' · ' + esc(t.ghi) : ''}</small>${b ? `<small>📎 Buổi ${b.so || ''} · ${thuNgay(b.ngay)}</small>` : ''}</div>${t.moi ? '<em>Mới</em>' : ''}</a>`; }).join('')}</div>`;
+}
+function veTL(X) {
+  const co = Object.keys(LOAI_TL).filter(l => X.tl.some(t => t.loai === l));
+  return `<div class="the mat"><h2>📚 Kho tài liệu <span class="phu">Thầy chọn cho lớp</span></h2>
+    ${X.tl.length > 4 ? `<input class="tim" id="o-tim" placeholder="🔍 Tìm tài liệu…" value="${esc(TIM)}">` : ''}
+    ${co.length > 1 ? `<div class="loc"><button data-loc-tl="all" class="${LOC_TL === 'all' ? 'on' : ''}">Tất cả</button>${co.map(l => `<button data-loc-tl="${l}" class="${LOC_TL === l ? 'on' : ''}">${LOAI_TL[l][0]} ${LOAI_TL[l][1]}</button>`).join('')}</div>` : ''}
+    <div id="tl-luoi">${luoiTL(X)}</div></div>`;
+}
+
+function veHS() {
+  const hv = D.hoc_vien || [];
+  const o = (h, k) => (h.thieu || []).includes(k) ? '<td class="thieu">Còn thiếu</td>' : '<td class="du">✓</td>';
+  if (HS_CHON && !hv.some(h => h.id === HS_CHON)) HS_CHON = null;
+  const ai = hv.find(h => h.id === HS_CHON);
+  return `<div class="the mat"><h2>👤 Hồ sơ học viên</h2>
+    <table class="bang"><thead><tr><th>Học viên</th><th>SĐT</th><th>Gmail</th><th>Ngày sinh</th><th></th></tr></thead><tbody>
+      ${hv.map(h => `<tr><td><b>${esc(h.ten)}</b></td>${o(h, 'sdt')}${o(h, 'email')}${o(h, 'ngay_sinh')}<td><button class="nut ${h.thieu && h.thieu.length ? 'chinh' : ''} nho2" data-hs-ai="${h.id}">${h.thieu && h.thieu.length ? 'Điền' : 'Sửa'}</button></td></tr>`).join('')}
+    </tbody></table>
+    ${ai ? `<form class="form" id="f-hs"><b style="color:var(--muc)">Thông tin của ${esc(ai.ten)}</b>
+      <label>Họ và tên đầy đủ<input name="ho_ten" autocomplete="name" placeholder="VD: Nguyễn Thị Hồng Nhung"></label>
+      <label>Số điện thoại<input name="sdt" type="tel" inputmode="tel" autocomplete="tel" placeholder="VD: 0901 234 567"></label>
+      <label>Gmail<input name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" placeholder="ten@gmail.com"></label>
+      <label>Ngày sinh<input name="ngay_sinh" type="date" max="${homNay()}"></label>
+      <label>Mục tiêu học tiếng Trung <span class="mo">(không bắt buộc)</span><textarea name="muc_tieu" rows="2" placeholder="VD: giao tiếp khi đi công tác, thi HSK 4…"></textarea></label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="nut chinh" type="submit">Gửi cho Thầy</button><button class="nut" type="button" data-hs-dong>Huỷ</button></div></form>` : ''}
+    <p class="mo nho" style="margin:12px 0 0">Số điện thoại, Gmail và ngày sinh chỉ gửi riêng cho Thầy. Bạn cùng lớp chỉ thấy đã điền hay chưa.</p></div>`;
+}
+function ganHS() {
+  const f = $('#f-hs'); if (!f) return;
+  f.onsubmit = async e => {
+    e.preventDefault(); const v = Object.fromEntries(new FormData(f));
+    Object.keys(v).forEach(k => v[k] = v[k].trim());
+    if (!v.sdt && !v.ngay_sinh && !v.ho_ten && !v.email) return toast('Anh/chị/bạn điền ít nhất một mục nhé');
+    if (v.sdt && !/^[+0-9 .()-]{8,20}$/.test(v.sdt)) return toast('Số điện thoại chưa đúng');
+    if (v.email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.email)) return toast('Gmail chưa đúng');
+    const nut = f.querySelector('button[type=submit]'); nut.disabled = true; nut.textContent = 'Đang gửi…';
+    const than = { p_ma: MA, p_hoc_vien: HS_CHON, p_ho_ten: v.ho_ten || null, p_sdt: v.sdt || null, p_ngay_sinh: v.ngay_sinh || null, p_muc_tieu: v.muc_tieu || null };
+    try {
+      let ok;
+      try { ok = await goiHam('gui_ho_so', { ...than, p_email: v.email || null }); }
+      catch (x) { if (x.status === 404 && !v.email) ok = await goiHam('gui_ho_so', than); else throw x; }
+      if (!ok) throw 0;
+      HS_CHON = null; ve(); toast('✓ Đã gửi cho Thầy. Cảm ơn anh/chị/bạn!');
+    } catch (x) { nut.disabled = false; nut.textContent = 'Gửi cho Thầy'; toast('Chưa gửi được, anh/chị/bạn thử lại sau nhé'); }
+  };
+}
+
+/* ---------- gợi ý cài lên màn hình chính ---------- */
+let NHAC_CAI = null;
+const daCai = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+function caiApp() {
+  if (daCai() || lsDoc('gy_an_cai', false)) return '';
+  const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  if (!ios && !NHAC_CAI) return '';
+  return `<div class="cai mat"><img src="icon-180.png" alt=""><div><b>Thêm trang lớp vào màn hình chính</b><br><span class="mo nho">${ios ? 'Bấm nút Chia sẻ <b>⬆︎</b> của Safari → chọn <b>“Thêm vào MH chính”</b>. Lần sau mở như một app, không cần nhập mã.' : 'Mở như một app, không cần nhập lại mã.'}</span>${!ios ? '<br><button class="nut chinh nho2" data-cai style="margin-top:6px">Cài đặt</button>' : ''}</div><button class="x" data-an-cai aria-label="Ẩn">×</button></div>`;
+}
+addEventListener('beforeinstallprompt', e => { e.preventDefault(); NHAC_CAI = e; if (D) ve(); });
+if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => { }));
+
+/* ---------- thao tác ---------- */
+function doiTab(t) { TAB = t; $$('.tab button').forEach(x => x.classList.toggle('on', x.dataset.t === t)); $$('.trang').forEach(s => s.classList.toggle('on', s.id === t)); scrollTo({ top: 0, behavior: 'smooth' }); }
+document.addEventListener('click', async e => {
+  const t = e.target;
+  const b = t.closest('.tab button'); if (b) return doiTab(b.dataset.t);
+  const di = t.closest('[data-di]'); if (di) return doiTab(di.dataset.di);
+  if (t.closest('[data-mo-ct]')) return $('#dau').classList.toggle('mo');
+  const l = t.closest('[data-loc]'); if (l) { LOC = l.dataset.loc; return ve(); }
+  const lt = t.closest('[data-loc-tl]'); if (lt) { LOC_TL = lt.dataset.locTl; return ve(); }
+  const ai = t.closest('[data-hs-ai]'); if (ai) { HS_CHON = Number(ai.dataset.hsAi); TAB = 'hs'; $('#dau') && $('#dau').classList.remove('mo'); ve(); scrollTo({ top: 0 }); setTimeout(() => { const f = $('#f-hs'); if (f) { f.scrollIntoView({ behavior: 'smooth', block: 'center' }); } }, 60); return; }
+  if (t.closest('[data-hs-dong]')) { HS_CHON = null; return ve(); }
+  if (t.closest('[data-an-cai]')) { lsGhi('gy_an_cai', true); return ve(); }
+  if (t.closest('[data-cai]') && NHAC_CAI) { NHAC_CAI.prompt(); await NHAC_CAI.userChoice.catch(() => { }); NHAC_CAI = null; return ve(); }
+  if (t.closest('[data-doi-ma]')) { localStorage.removeItem('gy_ma_lop'); MA = ''; D = null; TAB = 'tq'; history.replaceState(null, '', location.pathname); veVao(); }
+});
+document.addEventListener('change', e => {
+  const c = e.target.closest('[data-bt]'); if (!c) return;
+  const id = Number(c.dataset.bt), ds = btXong().filter(x => x !== id); if (c.checked) ds.push(id); lsGhi('gy_bt_' + MA, ds);
+  c.closest('.bt').classList.toggle('xong', c.checked);
+  const n = conBT(chuanBi()), dem = $('.tab [data-t=bt] .dem');
+  if (dem) { dem.textContent = n; dem.style.display = n ? '' : 'none'; } else if (n) ve();
+  if (c.checked) toast(n ? `Giỏi quá! Còn ${n} bài nữa 💪` : 'Đã xong hết bài tập 🎉');
+});
+/* quay lại trang thì tải dữ liệu mới */
+document.addEventListener('visibilitychange', () => { if (!document.hidden && MA && D && !HS_CHON) tai(MA); });
+MA = sachMa(new URLSearchParams(location.search).get('ma') || localStorage.getItem('gy_ma_lop') || '');
+if (MA) tai(MA); else veVao();
+</script>
+</body>
+</html>

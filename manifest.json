@@ -1,0 +1,14 @@
+{
+  "name": "Lớp học · Guangyu Hanyu",
+  "short_name": "Lớp tiếng Trung",
+  "description": "Theo dõi lớp học tiếng Trung cùng Guangyu Laoshi",
+  "display": "standalone",
+  "background_color": "#ECE8DF",
+  "theme_color": "#ECE8DF",
+  "lang": "vi",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
