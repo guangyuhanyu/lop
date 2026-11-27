@@ -31,7 +31,7 @@ a{color:var(--chinh-dam)}
 .dau img{width:54px;height:54px;border-radius:9px;flex:none}
 .dau .ten small{display:block;font-size:11px;letter-spacing:.25em;color:var(--nhat)}
 .dau .ten b{display:block;font-size:21px;letter-spacing:.03em;line-height:1.3}
-.ve-chu{margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:4px;border:1px solid var(--vien);background:#fff;border-radius:99px;padding:8px 14px;font-size:13.5px;font-weight:700;color:var(--chinh-dam);text-decoration:none;white-space:nowrap}
+.ve-chu{cursor:pointer;margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:4px;border:1px solid var(--vien);background:#fff;border-radius:99px;padding:8px 14px;font-size:13.5px;font-weight:700;color:var(--chinh-dam);text-decoration:none;white-space:nowrap}
 .ve-chu:hover{background:var(--p1)}
 .mo-ct{display:flex;align-items:center;gap:8px;width:100%;margin-top:12px;border:1px solid var(--vien);background:var(--p1);color:var(--p1c);border-radius:14px;padding:10px 14px;font-size:14px;text-align:left;cursor:pointer}
 .mo-ct .mui{margin-left:auto;font-weight:700;white-space:nowrap}
@@ -178,6 +178,8 @@ const lsGhi = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } ca
 const LOAI_TL = { gt: ['📘', 'Giáo trình', 'p1'], audio: ['🎧', 'Audio', 'p2'], tv: ['🗂', 'Từ vựng', 'p3'], de: ['📝', 'Đề luyện', 'p4'], video: ['🎬', 'Video', 'p1'], khac: ['📎', 'Khác', 'p2'] };
 const MAU_AV = ['p2', 'p1', 'p3', 'p4'];
 const TEN_THIEU = { sdt: 'SĐT', email: 'Gmail', ngay_sinh: 'ngày sinh' };
+const NHUNG = window.top !== window && new URLSearchParams(location.search).has('nhung'); /* đang mở trong lớp phủ của trang chủ */
+const baoCha = m => { try { parent.postMessage({ gyLop: m }, location.origin); } catch (e) { } };
 let D = null, MA = '', TAB = 'tq', LOC = 'all', LOC_TL = 'all', TIM = '', HS_CHON = null;
 
 async function goiHam(ten, than) {
@@ -193,7 +195,8 @@ function veVao(loi) {
     <p class="mo nho" style="margin:0">Nhập mã lớp Thầy gửi qua Zalo (8 ký tự).</p>
     <input id="o-ma" maxlength="9" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="XXXX-XXXX" value="${esc(MA)}">
     <div class="loi">${loi || ''}</div>
-    <button class="nut chinh" id="nut-vao">Xem lớp của tôi</button><a class="nut" href="${TRANG_CHU}">🏠 Về trang chủ</a></section>`;
+    <button class="nut chinh" id="nut-vao">Xem lớp của tôi</button>${NHUNG ? '<button class="nut" data-dong-phu>✕ Đóng</button>' : `<a class="nut" href="${TRANG_CHU}">🏠 Về trang chủ</a>`}</section>`;
+  baoCha('san');
   const o = $('#o-ma'); o.focus();
   o.addEventListener('input', () => { const v = sachMa(o.value).slice(0, 8); o.value = v.length > 4 ? v.slice(0, 4) + '-' + v.slice(4) : v; });
   o.addEventListener('keydown', e => { if (e.key === 'Enter') $('#nut-vao').click(); });
@@ -206,7 +209,7 @@ async function tai(ma) {
     const d = await goiHam('xem_lop', { p_ma: ma });
     if (!d) { localStorage.removeItem('gy_ma_lop'); MA = ''; D = null; return veVao('Không tìm thấy lớp với mã này. Anh/chị/bạn kiểm tra lại hoặc nhắn Thầy nhé.'); }
     D = d; MA = ma; localStorage.setItem('gy_ma_lop', ma);
-    history.replaceState(null, '', `?ma=${ma}`);
+    history.replaceState(null, '', `?ma=${ma}${NHUNG ? '&nhung=1' : ''}`);
     document.title = `${d.lop} · Guangyu Hanyu`;
     ve();
   } catch (e) { if (!D) veVao('Chưa kết nối được. Anh/chị/bạn thử lại sau ít phút.'); }
@@ -236,7 +239,7 @@ function ve() {
     k && (k.bd || k.kt) && ['Thời gian khoá', `${ngayVN(k.bd) || '…'} → ${ngayVN(k.kt) || '…'}`], k && k.lich && ['Lịch học', k.lich], k && k.muc_tieu && ['Mục tiêu', k.muc_tieu],
     ['Giáo viên', 'Thầy Guangyu · Zalo 0358 840 411']].filter(Boolean);
   const dauTrang = `<header class="dau mat" id="dau">
-    <div class="dau-tren"><img src="logo.webp" alt="Guangyu Hanyu"><div class="ten"><small>光余汉语 · GUANGYU HANYU</small><b>${esc(d.lop)}${d.trinh_do ? ` · ${esc(d.trinh_do)}` : ''}</b></div><a class="ve-chu" href="${TRANG_CHU}" title="Về trang chủ">🏠<span> Trang chủ</span></a></div>
+    <div class="dau-tren"><img src="logo.webp" alt="Guangyu Hanyu"><div class="ten"><small>光余汉语 · GUANGYU HANYU</small><b>${esc(d.lop)}${d.trinh_do ? ` · ${esc(d.trinh_do)}` : ''}</b></div>${NHUNG ? '<button class="ve-chu" data-dong-phu title="Đóng">✕<span> Đóng</span></button>' : `<a class="ve-chu" href="${TRANG_CHU}" title="Về trang chủ">🏠<span> Trang chủ</span></a>`}</div>
     <button class="mo-ct" data-mo-ct>👥 ${hv.length} học viên${lichNgan ? ` · ${esc(lichNgan)}` : ''}<span class="mui">Chi tiết <i>▾</i></span></button>
     <div class="ct-lop"><div><div class="ct-trong">
       <div><h3>Học viên trong lớp</h3>${hv.map((h, i) => `<div class="hv"><span class="av" style="background:var(--${MAU_AV[i % 4]});color:var(--${MAU_AV[i % 4]}c)">${esc((h.ten || '?').trim().split(/\s+/).pop()[0] || '?')}</span><b>${esc(h.ten)}</b>${h.thieu && h.thieu.length ? `<span class="tt toi bam" data-hs-ai="${h.id}">Thiếu ${h.thieu.map(x => TEN_THIEU[x] || x).join(', ')}</span>` : '<span class="tt da">✓ Đủ hồ sơ</span>'}</div>`).join('') || '<p class="mo nho">Chưa có học viên.</p>'}</div>
@@ -254,6 +257,7 @@ function ve() {
      <p class="chan">GUANGYU HANYU${d.cap_nhat ? ` · Cập nhật lúc ${new Date(d.cap_nhat).toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' })}` : ''}<br><button data-doi-ma>Đổi mã lớp khác</button></p>`;
   if ($('#o-tim')) $('#o-tim').oninput = e => { TIM = e.target.value; $('#tl-luoi').innerHTML = luoiTL(X); };
   ganHS();
+  baoCha('san');
 }
 
 function veTQ(X) {
@@ -362,7 +366,7 @@ function ganHS() {
 let NHAC_CAI = null;
 const daCai = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
 function caiApp() {
-  if (daCai() || lsDoc('gy_an_cai', false)) return '';
+  if (NHUNG || daCai() || lsDoc('gy_an_cai', false)) return '';
   const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   if (!ios && !NHAC_CAI) return '';
   return `<div class="cai mat"><img src="icon-180.png" alt=""><div><b>Thêm trang lớp vào màn hình chính</b><br><span class="mo nho">${ios ? 'Bấm nút Chia sẻ <b>⬆︎</b> của Safari → chọn <b>“Thêm vào MH chính”</b>. Lần sau mở như một app, không cần nhập mã.' : 'Mở như một app, không cần nhập lại mã.'}</span>${!ios ? '<br><button class="nut chinh nho2" data-cai style="margin-top:6px">Cài đặt</button>' : ''}</div><button class="x" data-an-cai aria-label="Ẩn">×</button></div>`;
@@ -376,6 +380,7 @@ document.addEventListener('click', async e => {
   const t = e.target;
   const b = t.closest('.tab button'); if (b) return doiTab(b.dataset.t);
   const di = t.closest('[data-di]'); if (di) return doiTab(di.dataset.di);
+  if (t.closest('[data-dong-phu]')) return baoCha('dong');
   if (t.closest('[data-mo-ct]')) return $('#dau').classList.toggle('mo');
   const l = t.closest('[data-loc]'); if (l) { LOC = l.dataset.loc; return ve(); }
   const lt = t.closest('[data-loc-tl]'); if (lt) { LOC_TL = lt.dataset.locTl; return ve(); }
@@ -383,7 +388,7 @@ document.addEventListener('click', async e => {
   if (t.closest('[data-hs-dong]')) { HS_CHON = null; return ve(); }
   if (t.closest('[data-an-cai]')) { lsGhi('gy_an_cai', true); return ve(); }
   if (t.closest('[data-cai]') && NHAC_CAI) { NHAC_CAI.prompt(); await NHAC_CAI.userChoice.catch(() => { }); NHAC_CAI = null; return ve(); }
-  if (t.closest('[data-doi-ma]')) { localStorage.removeItem('gy_ma_lop'); MA = ''; D = null; TAB = 'tq'; history.replaceState(null, '', location.pathname); veVao(); }
+  if (t.closest('[data-doi-ma]')) { localStorage.removeItem('gy_ma_lop'); MA = ''; D = null; TAB = 'tq'; history.replaceState(null, '', location.pathname + (NHUNG ? '?nhung=1' : '')); veVao(); }
 });
 document.addEventListener('change', e => {
   const c = e.target.closest('[data-bt]'); if (!c) return;
