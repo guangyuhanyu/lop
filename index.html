@@ -240,7 +240,7 @@ const conBT = X => X.bt.filter(b => !btXong().includes(b.id)).length;
 function ve() {
   const d = D, X = chuanBi(), k = d.khoa, hv = d.hoc_vien || [];
   const lichNgan = k && k.lich ? k.lich : X.toi[0] ? `${THU_DAI[s2d(X.toi[0].ngay).getDay()]}${X.toi[0].gio ? ' · ' + X.toi[0].gio : ''}` : '';
-  const thongTin = [['Mã lớp', d.lop], k && ['Khoá hiện tại', `${k.ma} · ${k.tong} buổi × ${tlChu(k.tl)}${k.theo_gio ? ` (tổng ${gioChu(k.tong * k.tl)}, tính theo giờ)` : ''}`], k && k.giao_trinh && ['Giáo trình', k.giao_trinh], d.trinh_do && ['Trình độ', d.trinh_do],
+  const thongTin = [['Mã lớp', d.lop], k && ['Khoá hiện tại', k.theo_gio ? `${k.ma} · tổng ${gioChu(k.tong * k.tl)} (tính theo giờ)` : `${k.ma} · ${k.tong} buổi × ${tlChu(k.tl)}`], k && k.giao_trinh && ['Giáo trình', k.giao_trinh], d.trinh_do && ['Trình độ', d.trinh_do],
     k && (k.bd || k.kt) && ['Thời gian khoá', `${ngayVN(k.bd) || '…'} → ${ngayVN(k.kt) || '…'}`], k && k.lich && ['Lịch học', k.lich], k && k.muc_tieu && ['Mục tiêu', k.muc_tieu],
     ['Giáo viên', 'Thầy Guangyu · Zalo 0358 840 411']].filter(Boolean);
   const dauTrang = `<header class="dau mat" id="dau">
@@ -275,7 +275,7 @@ function veTQ(X) {
     <div class="o p3"><i class="bieu">🔔</i><span>Buổi tới</span><b>${bt0 ? thuNgay(bt0.ngay) : '—'}</b><small>${bt0 ? `${bt0.gio || ''}${bt0.gio ? ' · ' : ''}${tlChu(bt0.phut)}` : 'Thầy chưa xếp lịch'}</small></div>
     <div class="o ${k.hp.xong ? 'p2' : 'no'}"><i class="bieu">💰</i><span>Học phí</span><b>${k.hp.xong ? 'Đã đóng' : 'Chưa đủ'}</b><small>${esc(k.hp.chu.replace(/^Đã nhận ✓\s*/, '✓ '))}</small></div>
     <div class="o p4 bam" data-di="tl"><i class="bieu">📚</i><span>Tài liệu</span><b>${X.tl.length} tài liệu</b><small>${nMoi ? `${nMoi} mới · ` : ''}xem kho →</small></div></div>`;
-  if (k.sau) h += `<div class="nhac">🌿 Khoá học sắp hoàn thành. Khoá tiếp theo: <b>${k.sau.so} buổi × ${tlChu(k.sau.tl)} · ${esc(k.sau.hp)}</b>${d.loai === 'nhom' || (d.hoc_vien || []).length > 1 ? ' (cả nhóm)' : ''}. Anh/chị/bạn chuyển khoản trước buổi đầu của khoá mới giúp Thầy nhé.</div>`;
+  if (k.sau) h += `<div class="nhac">🌿 Khoá học sắp hoàn thành. Khoá tiếp theo: <b>${k.theo_gio ? gioChu(k.sau.so * k.sau.tl) : `${k.sau.so} buổi × ${tlChu(k.sau.tl)}`} · ${esc(k.sau.hp)}</b>${d.loai === 'nhom' || (d.hoc_vien || []).length > 1 ? ' (cả nhóm)' : ''}. Anh/chị/bạn chuyển khoản trước buổi đầu của khoá mới giúp Thầy nhé.</div>`;
   const ba = X.toi.slice(0, 3);
   h += `<div class="hai"><div class="the mat"><h2>📅 ${ba.length > 1 ? `${ba.length} buổi sắp tới` : 'Buổi sắp tới'} <span class="phu bam" data-di="lich">Xem cả lịch →</span></h2>
     ${ba.length ? `<table class="bang"><thead><tr><th>Buổi</th><th>Ngày</th><th>Giờ</th><th>Trạng thái</th></tr></thead><tbody>${ba.map((b, i) => `<tr class="${i ? '' : 'toi'}"><td class="so">${b.so}</td><td>${thuNgay(b.ngay)}</td><td>${b.gio || '—'}</td><td><span class="tt ${i ? 'sap' : 'toi'}">${i ? 'Sắp tới' : 'Buổi tới'}</span></td></tr>`).join('')}</tbody></table>` : '<p class="mo">Thầy chưa xếp lịch buổi tiếp theo.</p>'}</div>
