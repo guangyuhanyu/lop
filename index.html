@@ -171,6 +171,11 @@ const ngayNgan = s => s ? `${s.slice(8)}/${s.slice(5, 7)}` : '';
 const thuNgay = s => s ? `${THU[s2d(s).getDay()]} · ${ngayNgan(s)}` : '';
 const sachMa = v => String(v || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
 const tlChu = p => !p ? '' : p % 60 ? (p > 60 ? `${Math.floor(p / 60)}h${p % 60}` : `${p} phút`) : `${p / 60} tiếng`;
+const gioChu = ph => { ph = Math.round(ph); const h = Math.floor(ph / 60), m = ph % 60; return [h ? h + ' tiếng' : '', m ? m + ' phút' : ''].filter(Boolean).join(' ') || '0 phút'; };
+const gioNgan = ph => { ph = Math.round(ph); const h = Math.floor(ph / 60), m = ph % 60; return h ? h + 'h' + (m ? String(m).padStart(2, '0') : '') : m + ' phút'; };
+/* lớp tính theo giờ: số buổi quy đổi × thời lượng chuẩn = số phút */
+const luong = (k, n) => k.theo_gio ? gioChu(n * k.tl) : `${n} buổi`;
+const luongNgan = (k, n) => k.theo_gio ? gioNgan(n * k.tl) : String(n);
 const gioKet = (g, p) => { if (!g || !p) return ''; const [h, m] = g.split(':').map(Number), t = h * 60 + m + p; return `${String(Math.floor(t / 60) % 24).padStart(2, '0')}:${String(t % 60).padStart(2, '0')}`; };
 const toast = t => { const n = document.createElement('div'); n.className = 'toast'; n.textContent = t; document.body.appendChild(n); setTimeout(() => { n.style.opacity = 0; setTimeout(() => n.remove(), 400); }, 2600); };
 const lsDoc = (k, md) => { try { return JSON.parse(localStorage.getItem(k)) ?? md; } catch (e) { return md; } };
@@ -235,7 +240,7 @@ const conBT = X => X.bt.filter(b => !btXong().includes(b.id)).length;
 function ve() {
   const d = D, X = chuanBi(), k = d.khoa, hv = d.hoc_vien || [];
   const lichNgan = k && k.lich ? k.lich : X.toi[0] ? `${THU_DAI[s2d(X.toi[0].ngay).getDay()]}${X.toi[0].gio ? ' · ' + X.toi[0].gio : ''}` : '';
-  const thongTin = [['Mã lớp', d.lop], k && ['Khoá hiện tại', `${k.ma} · ${k.tong} buổi × ${tlChu(k.tl)}`], k && k.giao_trinh && ['Giáo trình', k.giao_trinh], d.trinh_do && ['Trình độ', d.trinh_do],
+  const thongTin = [['Mã lớp', d.lop], k && ['Khoá hiện tại', `${k.ma} · ${k.tong} buổi × ${tlChu(k.tl)}${k.theo_gio ? ` (tổng ${gioChu(k.tong * k.tl)}, tính theo giờ)` : ''}`], k && k.giao_trinh && ['Giáo trình', k.giao_trinh], d.trinh_do && ['Trình độ', d.trinh_do],
     k && (k.bd || k.kt) && ['Thời gian khoá', `${ngayVN(k.bd) || '…'} → ${ngayVN(k.kt) || '…'}`], k && k.lich && ['Lịch học', k.lich], k && k.muc_tieu && ['Mục tiêu', k.muc_tieu],
     ['Giáo viên', 'Thầy Guangyu · Zalo 0358 840 411']].filter(Boolean);
   const dauTrang = `<header class="dau mat" id="dau">
@@ -266,7 +271,7 @@ function veTQ(X) {
   const p = k.tong ? Math.min(100, Math.round(k.da_hoc / k.tong * 100)) : 0, nMoi = X.tl.filter(t => t.moi).length;
   let h = caiApp();
   h += `<div class="o4">
-    <div class="o p1"><i class="bieu">⏳</i><span>Còn lại</span><b>${k.con_lai} buổi</b><small>Đã học ${k.da_hoc}/${k.tong}${k.vuot ? ` · vượt ${k.vuot}` : ''}</small><div class="vach"><i style="width:${p}%"></i></div></div>
+    <div class="o p1"><i class="bieu">⏳</i><span>Còn lại</span><b>${k.theo_gio ? gioNgan(k.con_lai * k.tl) : k.con_lai + ' buổi'}</b><small>Đã học ${luongNgan(k, k.da_hoc)}/${luongNgan(k, k.tong)}${k.vuot ? ` · vượt ${luong(k, k.vuot)}` : ''}</small><div class="vach"><i style="width:${p}%"></i></div></div>
     <div class="o p3"><i class="bieu">🔔</i><span>Buổi tới</span><b>${bt0 ? thuNgay(bt0.ngay) : '—'}</b><small>${bt0 ? `${bt0.gio || ''}${bt0.gio ? ' · ' : ''}${tlChu(bt0.phut)}` : 'Thầy chưa xếp lịch'}</small></div>
     <div class="o ${k.hp.xong ? 'p2' : 'no'}"><i class="bieu">💰</i><span>Học phí</span><b>${k.hp.xong ? 'Đã đóng' : 'Chưa đủ'}</b><small>${esc(k.hp.chu.replace(/^Đã nhận ✓\s*/, '✓ '))}</small></div>
     <div class="o p4 bam" data-di="tl"><i class="bieu">📚</i><span>Tài liệu</span><b>${X.tl.length} tài liệu</b><small>${nMoi ? `${nMoi} mới · ` : ''}xem kho →</small></div></div>`;
@@ -293,10 +298,10 @@ function veLich(X) {
   const dong = b => {
     const nd = b.tt === 'nghi' ? `Nghỉ${b.lydo ? ': ' + esc(b.lydo) : ''}` : b.nd ? esc(b.nd) : `<span class="trong">${b.tt === 'da_day' ? '—' : 'Sắp học'}</span>`;
     const lk = lienKet(b), coCt = b.bt || lk;
-    return `<tr class="${b === toi0 ? 'toi' : ''} ${b.tt === 'nghi' ? 'nghi' : ''}"><td class="so">${b.so || '–'}</td><td class="ngay">${thuNgay(b.ngay)}</td><td class="an-dt">${b.gio ? `${b.gio}–${gioKet(b.gio, b.phut)}` : '—'}</td><td>${nd}</td><td class="an-dt">${b.bt ? esc(b.bt) : '—'}</td><td class="an-dt">${lk || '—'}</td><td>${ttCua(b)}</td></tr>
+    return `<tr class="${b === toi0 ? 'toi' : ''} ${b.tt === 'nghi' ? 'nghi' : ''}"><td class="so">${b.so || '–'}</td><td class="ngay">${thuNgay(b.ngay)}${k && k.theo_gio && b.tt !== 'nghi' ? `<br><small class="mo">${tlChu(b.phut)}</small>` : ''}</td><td class="an-dt">${b.gio ? `${b.gio}–${gioKet(b.gio, b.phut)}` : '—'}</td><td>${nd}</td><td class="an-dt">${b.bt ? esc(b.bt) : '—'}</td><td class="an-dt">${lk || '—'}</td><td>${ttCua(b)}</td></tr>
       ${coCt ? `<tr class="ct ${b === toi0 ? 'toi' : ''}"><td></td><td colspan="3">${b.bt ? `📝 ${esc(b.bt)}<br>` : ''}${lk}</td></tr>` : ''}`;
   };
-  return `<div class="the mat"><h2>📅 Lịch học${k ? ` khoá ${esc(k.ma)} <span class="phu">${k.tong} buổi × ${tlChu(k.tl)}</span>` : ''}</h2>
+  return `<div class="the mat"><h2>📅 Lịch học${k ? ` khoá ${esc(k.ma)} <span class="phu">${k.theo_gio ? `tổng ${gioChu(k.tong * k.tl)} · còn ${gioChu(k.con_lai * k.tl)}` : `${k.tong} buổi × ${tlChu(k.tl)}`}</span>` : ''}</h2>
     <div class="loc">${[['all', 'Tất cả'], ['sap', 'Sắp tới'], ['da', 'Đã học'], ['nghi', 'Nghỉ']].filter(([id]) => id !== 'nghi' || nhom.nghi.length).map(([id, t]) => `<button data-loc="${id}" class="${LOC === id ? 'on' : ''}">${t} · ${nhom[id].length}</button>`).join('')}</div>
     ${ds.length ? `<table class="bang"><thead><tr><th>Buổi</th><th>Ngày</th><th class="an-dt">Giờ</th><th>Nội dung</th><th class="an-dt">Bài tập</th><th class="an-dt">Bài giảng · tài liệu</th><th>TT</th></tr></thead><tbody>${ds.map(dong).join('')}</tbody></table>` : '<p class="mo">Chưa có buổi nào.</p>'}</div>`;
 }
